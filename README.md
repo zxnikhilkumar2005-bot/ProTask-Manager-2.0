@@ -67,7 +67,7 @@ git clone https://github.com/yourusername/protask-manager.git
 2. Open the project folder
 
 ```bash
-cd protask-manager
+cd ./TO_DO_PROJECT
 ```
 
 3. Open **index.html** in your browser
