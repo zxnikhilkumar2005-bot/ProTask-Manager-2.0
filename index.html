@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProTask Manager 2.0</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        success: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div
+        class="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 relative">
+
+        <!-- Header -->
+        <div
+            class="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-800 sticky top-0 z-10">
+            <div>
+                <h1 class="text-2xl font-bold text-primary"><i class="fa-solid fa-check-double mr-2"></i>ProTask</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400" id="date-display">Loading date...</p>
+            </div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                <i class="fa-solid fa-moon text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Progress Bar Section -->
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-700">
+            <div class="flex justify-between text-sm mb-1">
+                <span class="font-semibold">Progress</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div id="progress-bar" class="bg-primary h-2.5 rounded-full transition-all duration-500"
+                    style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Controls: Search & Filter -->
+        <div class="p-4 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 space-y-3">
+            <div class="relative">
+                <i class="fa-solid fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                <input type="text" id="search-input" placeholder="Search tasks..."
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition">
+            </div>
+            <div class="flex space-x-2 overflow-x-auto pb-1">
+                <button onclick="filterTasks('all')"
+                    class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-primary text-white transition shadow-md">All</button>
+                <button onclick="filterTasks('pending')"
+                    class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition">Pending</button>
+                <button onclick="filterTasks('completed')"
+                    class="filter-btn px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition">Completed</button>
+            </div>
+        </div>
+
+        <!-- Add Task Form -->
+        <div class="p-6 bg-white dark:bg-gray-800">
+            <form id="add-task-form" class="space-y-3">
+                <input type="text" id="task-input" placeholder="What needs to be done?" required
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary transition">
+
+                <div class="flex gap-3 flex-wrap">
+                    <select id="category-select"
+                        class="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:outline-none">
+                        <option value="Personal">👤 Personal</option>
+                        <option value="Work">💼 Work</option>
+                        <option value="Study">📚 Study</option>
+                    </select>
+
+                    <select id="priority-select"
+                        class="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:outline-none">
+                        <option value="Low">🟢 Low</option>
+                        <option value="Medium" selected>🟡 Medium</option>
+                        <option value="High">🔴 High</option>
+                    </select>
+
+                    <input type="date" id="date-input"
+                        class="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:outline-none">
+
+                    <input type="time" id="time-input"
+                        class="px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:outline-none">
+
+                    <button type="submit"
+                        class="flex-1 bg-primary hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg transition shadow-lg shadow-indigo-500/30">
+                        Add Task
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Task List -->
+        <div class="p-4 h-[400px] overflow-y-auto" id="task-list-container">
+            <!-- Tasks injected here -->
+            <div id="empty-state" class="text-center py-10 text-gray-400">
+                <i class="fa-solid fa-clipboard-list text-4xl mb-3"></i>
+                <p>No tasks found.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="edit-modal"
+        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+        <div
+            class="modal-container bg-white dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded-xl shadow-2xl z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold text-primary">Edit Task</p>
+                    <div class="modal-close cursor-pointer z-50" onclick="closeModal()">
+                        <i class="fa-solid fa-times text-xl"></i>
+                    </div>
+                </div>
+
+                <form id="edit-task-form" class="space-y-4">
+                    <input type="hidden" id="edit-id">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Task Name</label>
+                        <input type="text" id="edit-task-input" required
+                            class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Category</label>
+                            <select id="edit-category-select"
+                                class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                                <option value="Personal">Personal</option>
+                                <option value="Work">Work</option>
+                                <option value="Study">Study</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Priority</label>
+                            <select id="edit-priority-select"
+                                class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Due Date</label>
+                            <input type="date" id="edit-date-input"
+                                class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Time</label>
+                            <input type="time" id="edit-time-input"
+                                class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        </div>
+                    </div>
+                    <div class="flex justify-end pt-2">
+                        <button type="submit"
+                            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-700">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
