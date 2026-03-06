@@ -37,20 +37,22 @@ ProTask Manager helps users organize tasks efficiently with features like priori
 ### Light Mode
 
 
-<img width="1850" height="952" alt="Screenshot 2026-03-06 200444" src="https://github.com/user-attachments/assets/9b49ce0d-2a43-4119-ae87-53d346e2d29d" />
+<img width="1850" height="952" alt="Screenshot 2026-03-06 200444" src="https://github.com/user-attachments/assets/d4ad66bc-c2ba-4881-b438-5d4697e09101" />
+
 
 
 ### Dark Mode
 
+<img width="842" height="927" alt="Screenshot 2026-03-06 200800" src="https://github.com/user-attachments/assets/0cf84522-e903-49e3-8d97-bbdaf8ebbbb7" />
 
 
-<img width="842" height="927" alt="Screenshot 2026-03-06 200800" src="https://github.com/user-attachments/assets/f54b88a1-87aa-4535-a8c6-f509025b7460" />
 
 
 ### Task Reminder Notification
 
+<img width="861" height="920" alt="Screenshot 2026-03-06 201054" src="https://github.com/user-attachments/assets/cca4fa04-b928-41af-b700-cf4dffe352f2" />
 
-<img width="861" height="920" alt="Screenshot 2026-03-06 201054" src="https://github.com/user-attachments/assets/c0cbfd1d-9320-4209-8595-c91788c4f14f" />
+
 
 ---
 
